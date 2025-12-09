@@ -183,8 +183,6 @@ Using RAG to create a contextual question based on document content."""
 
 def chat_with_examiner(message: str, history: List):
     """Handle conversation with the AI examiner."""
-    global session_active
-    
     if not session_active:
         error_msg = "⚠️ Please upload and analyze a PDF document first."
         return history, "", error_msg, "", "", False
