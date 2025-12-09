@@ -11,9 +11,12 @@ Dependencies:
 """
 
 import google.generativeai as genai
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict, Optional, Tuple, TYPE_CHECKING
 from dataclasses import dataclass, field
 import re
+
+if TYPE_CHECKING:
+    from pdf_handler import PDFHandler
 
 
 @dataclass

@@ -263,9 +263,9 @@ def use_lifeline(lifeline_type: str, history: List):
 def reset_session():
     """Reset the examination session."""
     global session_active
+    session_active = False
     examiner.reset_state()
     pdf_handler.reset()
-    session_active = False
     return "🔄 Session reset. Upload a new PDF to start.", [], "", "", "", "", False
 
 
