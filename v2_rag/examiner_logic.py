@@ -107,7 +107,8 @@ Keep responses concise and focused."""
         try:
             # Initialize chat session if not exists
             if not self.state.chat_session:
-                self.state.chat_session = self.model.start_chat(history=[])
+                # Start chat with empty history (no initial messages)
+                self.state.chat_session = self.model.start_chat()
             
             # Add system context if provided
             full_message = message
