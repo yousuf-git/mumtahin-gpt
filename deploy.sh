@@ -11,14 +11,12 @@ NC='\033[0m' # No Color
 # Main deployment is for v2_rag (RAG-based version)
 # For v1_basic, change APP_DIR to: /home/ubuntu/mumtahin-gpt/v1_basic
 APP_DIR="/home/ubuntu/mumtahin-gpt/v2_rag"
-BACKUP_DIR="/home/ubuntu/deployments/releases"
 SERVICE_NAME="mumtahingpt"
 LOG_DIR="/home/ubuntu/deployments/shared/logs"
 LOG_FILE="${LOG_DIR}/deploy.log"
 
 # Create timestamp
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-RELEASE_DIR="${BACKUP_DIR}/${TIMESTAMP}"
 
 # Ensure log directory exists
 mkdir -p "${LOG_DIR}"
@@ -44,13 +42,6 @@ REPO_ROOT="/home/ubuntu/mumtahin-gpt"
 # Check if this is initial deployment or update
 if [ -d "${REPO_ROOT}/.git" ]; then
     log "Existing repository found. Performing update..."
-    
-    # Create backup of current version
-    log "Creating backup of current version..."
-    if ! mkdir -p "${RELEASE_DIR}"; then
-        error_exit "Failed to create release directory. Check permissions."
-    fi
-    cp -r "${APP_DIR}" "${RELEASE_DIR}/" || error_exit "Failed to create backup"
     
     # Navigate to repository root
     cd "${REPO_ROOT}" || error_exit "Failed to navigate to repo root"
@@ -89,7 +80,8 @@ source venv/bin/activate || error_exit "Failed to activate virtual environment"
 log "Installing dependencies..."
 cd "${REPO_ROOT}"
 pip install -r requirements.txt --quiet || error_exit "Failed to install dependencies"
-cd "${APP_DIR}"
+# cd "${APP_DIR}"
+cd /home/ubuntu/mumtahin-gpt
 
 # Check if .env file exists, create if missing
 if [ ! -f .env ]; then
@@ -145,11 +137,6 @@ if curl -f http://localhost:7860 > /dev/null 2>&1; then
 else
     log "WARNING: Health check failed, but service is running"
 fi
-
-# Clean up old releases (keep last 5)
-log "Cleaning up old releases..."
-cd "${BACKUP_DIR}"
-ls -t | tail -n +6 | xargs -r rm -rf
 
 # Success
 echo -e "${GREEN}========================================${NC}"
