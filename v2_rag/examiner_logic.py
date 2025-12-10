@@ -82,7 +82,7 @@ class MumtahinGPT:
             api_key (str): Google Gemini API key
         """
         genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel('gemini-2.0-flash-exp')
+        self.model = genai.GenerativeModel('gemini-2.5-flash')
         self.state = ConversationState()
         self.examiner_personality = """You are a professional academic examiner with a friendly yet formal demeanor.
 Your role is to:

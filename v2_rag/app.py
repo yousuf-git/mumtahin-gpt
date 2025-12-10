@@ -171,7 +171,7 @@ Using RAG to create a contextual question based on document content."""
 **The examination will now begin. Please answer each question thoughtfully.**"""
         
         initial_chat = [[None, f"**Examiner:** {first_question}"]]
-        model_info = f"🤖 **Current AI Model:** gemini-2.0-flash-exp"
+        model_info = f"🤖 **Current AI Model:** gemini-2.5-flash"
         lifelines_status = f"🎯 **Lifelines Available:** {lifelines_remaining}/{lifelines_total}"
         
         yield status_msg, initial_chat, "", model_info, lifelines_status, ""
@@ -189,7 +189,7 @@ def chat_with_examiner(message: str, history: List):
     
     if not message.strip():
         lifelines_remaining, lifelines_total = examiner.get_lifelines_status()
-        return history, "", "", "🤖 **Current AI Model:** gemini-2.0-flash-exp", f"🎯 **Lifelines:** {lifelines_remaining}/{lifelines_total}", False
+        return history, "", "", "🤖 **Current AI Model:** gemini-2.5-flash", f"🎯 **Lifelines:** {lifelines_remaining}/{lifelines_total}", False
     
     history.append([message, None])
     
@@ -205,7 +205,7 @@ def chat_with_examiner(message: str, history: List):
             response = f"{evaluation}\n\n---\n🎉 **Examination Complete!**\n\n{final_summary}"
             history[-1][1] = f"**Examiner:** {response}"
             lifelines_remaining, lifelines_total = examiner.get_lifelines_status()
-            return history, "", "", "🤖 **Model:** gemini-2.0-flash-exp", f"🎯 **Lifelines:** {lifelines_remaining}/{lifelines_total}", False
+            return history, "", "", "🤖 **Model:** gemini-2.5-flash", f"🎯 **Lifelines:** {lifelines_remaining}/{lifelines_total}", False
         
         next_question, question_error = examiner.generate_next_question()
         
@@ -216,7 +216,7 @@ def chat_with_examiner(message: str, history: List):
         response = f"{evaluation}\n\n---\n**Next Question:**\n{next_question}"
         history[-1][1] = f"**Examiner:** {response}"
         
-        model_info = "🤖 **Current AI Model:** gemini-2.0-flash-exp"
+        model_info = "🤖 **Current AI Model:** gemini-2.5-flash"
         lifelines_remaining, lifelines_total = examiner.get_lifelines_status()
         lifelines_info = f"🎯 **Lifelines:** {lifelines_remaining}/{lifelines_total}"
         
@@ -237,7 +237,7 @@ def use_lifeline(lifeline_type: str, history: List):
     lifelines_remaining, lifelines_total = examiner.get_lifelines_status()
     
     if lifelines_remaining <= 0:
-        return history, "⚠️ No lifelines remaining!", "🤖 **Model:** gemini-2.0-flash-exp", f"🎯 **Lifelines:** 0/{lifelines_total}"
+        return history, "⚠️ No lifelines remaining!", "🤖 **Model:** gemini-2.5-flash", f"🎯 **Lifelines:** 0/{lifelines_total}"
     
     if not examiner.use_lifeline(lifeline_type):
         return history, "⚠️ Failed to use lifeline", "", ""
@@ -252,7 +252,7 @@ def use_lifeline(lifeline_type: str, history: List):
         history.append([None, f"**Examiner:** {lifeline_msg}\n\n{question}"])
         
         lifelines_remaining, lifelines_total = examiner.get_lifelines_status()
-        return history, "", "🤖 **Model:** gemini-2.0-flash-exp", f"🎯 **Lifelines:** {lifelines_remaining}/{lifelines_total}"
+        return history, "", "🤖 **Model:** gemini-2.5-flash", f"🎯 **Lifelines:** {lifelines_remaining}/{lifelines_total}"
         
     except Exception as e:
         return history, f"❌ Error: {str(e)}", "", ""
