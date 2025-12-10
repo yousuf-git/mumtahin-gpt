@@ -17,6 +17,12 @@ PyMuPDF
 python-dotenv
 pdfplumber
 reportlab
-huggingface-hub
+# huggingface-hub
 chromadb
 sentence-transformers
+
+# Install PyTorch CPU-only version (much smaller, ~200MB instead of ~900MB)
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
+torchvision
+torchaudio
